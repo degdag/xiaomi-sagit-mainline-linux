@@ -58,22 +58,23 @@
 		regulator-boot-on;
 	};
 
-	gpio_keys {
+	gpio_vol_keys: gpio-keys {
 		compatible = "gpio-keys";
+		label = "Volume keys";
 		autorepeat;
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&volume_down_gpio &volume_up_gpio>;
 
 		vol-down {
-			label = "Volume Down";
+			label = "Volume down";
 			linux,code = <KEY_VOLUMEDOWN>;
 			gpios = <&pm8998_gpio 5 GPIO_ACTIVE_LOW>;
 			debounce-interval = <15>;
 		};
 
 		vol-up {
-			label = "Volume Up";
+			label = "Volume up";
 			linux,code = <KEY_VOLUMEUP>;
 			gpios = <&pm8998_gpio 6 GPIO_ACTIVE_LOW>;
 			debounce-interval = <15>;
