@@ -80,6 +80,26 @@
 			debounce-interval = <15>;
 		};
 	};
+
+	gpio_hallsensor_key: gpio-keys {
+		compatible = "gpio-keys";
+		label = "Sensor misc keys";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&hall_sensor_default>;
+
+		hallsensor-key {
+			label = "Hallsensor key";
+			gpios = <&tlmm 124 GPIO_ACTIVE_LOW>;
+			// interrupt-parent = <&tlmm>;
+			// interrupts = <124 IRQ_TYPE_EDGE_BOTH>;
+			linux,input-type = <EV_SW>;
+			linux,code = <SW_LID>;
+			gpio-key,wakeup;
+			debounce-interval = <15>;
+			linux,can-disable;
+		};
+	};
 };
 
 &pm8998_gpio {
@@ -377,6 +397,18 @@
 
 &tlmm {
 	gpio-reserved-ranges = <0 4>, <81 4>;
+
+	hall_sensor_default: hall_sensor_default {
+		mux {
+			pins = "gpio124";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio124";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
 
 	touch_default: touch_default {
 		mux {
