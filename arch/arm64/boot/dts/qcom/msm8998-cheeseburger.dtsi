@@ -2,6 +2,7 @@
 /* Copyright (c) 2016, The Linux Foundation. All rights reserved. */
 
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
 #include "msm8998.dtsi"
 #include "pm8998.dtsi"
@@ -78,6 +79,44 @@
 			linux,code = <KEY_VOLUMEUP>;
 			gpios = <&pm8998_gpio 6 GPIO_ACTIVE_LOW>;
 			debounce-interval = <15>;
+		};
+	};
+
+	gpio_tristate_key: gpio-keys {
+		compatible = "gpio-keys";
+		label = "Tri-state key";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&tri_state_key_default>;
+
+		state-top {
+			label = "Tri-state key top";
+			linux,code = <KEY_A>;
+			// gpios = <&tlmm 40 GPIO_ACTIVE_LOW>;
+			interrupt-parent = <&tlmm>;
+			interrupts = <40 IRQ_TYPE_EDGE_FALLING>;
+			debounce-interval = <100>;
+			linux,can-disable;
+		};
+
+		state-middle {
+			label = "Tri-state key middle";
+			linux,code = <KEY_B>;
+			// gpios = <&tlmm 42 GPIO_ACTIVE_LOW>;
+			interrupt-parent = <&tlmm>;
+			interrupts = <42 IRQ_TYPE_EDGE_FALLING>;
+			debounce-interval = <100>;
+			linux,can-disable;
+		};
+
+		state-bottom {
+			label = "Tri-state key bottom";
+			linux,code = <KEY_C>;
+			// gpios = <&tlmm 26 GPIO_ACTIVE_LOW>;
+			interrupt-parent = <&tlmm>;
+			interrupts = <26 IRQ_TYPE_EDGE_FALLING>;
+			debounce-interval = <100>;
+			linux,can-disable;
 		};
 	};
 };
@@ -377,6 +416,19 @@
 
 &tlmm {
 	gpio-reserved-ranges = <0 4>, <81 4>;
+
+	tri_state_key_default: tri_state_key_default {
+		mux {
+			pins = "gpio40", "gpio42", "gpio26";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio40", "gpio42", "gpio26";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
 
 	touch_default: touch_default {
 		mux {
