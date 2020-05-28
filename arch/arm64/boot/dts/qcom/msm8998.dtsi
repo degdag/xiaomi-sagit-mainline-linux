@@ -1157,7 +1157,7 @@
 
 			px-supply = <&vreg_lvs2a_1p8>;
 
-			clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>,
+			clocks = <&xo>,
 				 <&rpmcc RPM_SMD_AGGR2_NOC_CLK>;
 			clock-names = "xo", "aggre2";
 
@@ -1983,7 +1983,7 @@
 			interrupt-names = "wdog", "fatal", "ready",
 					  "handover", "stop-ack";
 
-			clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>;
+			clocks = <&xo>;
 			clock-names = "xo";
 
 			memory-region = <&adsp_mem>;
